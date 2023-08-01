@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 // Create ApolloClient instance
 const client = new ApolloClient({
-  uri: 'https://api.us-central1.gcp.commercetools.com/sample-project-2023/graphql',
+  uri: 'https://api.{region}.gcp.commercetools.com/{project-key}/graphql',
  /* 
  cache: new InMemoryCache({
     dataIdFromObject: o => {o.id ? `${o.__typename}-${o.id}` : `${o.__typename}-${o.cursor}`}
@@ -13,7 +13,7 @@ const client = new ApolloClient({
   }),
   headers: {
 //bearer token needs to be manually generated in Postman
-    Authorization: `Bearer -CF2TIYFOSSENbC4z8NCCz4WSRvrn28C`
+    Authorization: `Bearer {token}`
   }
 });
 
@@ -97,60 +97,4 @@ client.query({ query })
   .catch(error => {
     console.error('Error:', error);
   });
-
-
-/*
-client.query({ query })
-  .then(data => {
-    console.log(data);
-
-    const contentDiv = document.getElementById('content');
-
-    if (!contentDiv) {
-      console.error('Error: Element with id "content" not found');
-      return;
-    }
-
-    data.data.products.results.forEach(product => {
-      const variant = product?.masterData?.current?.variants[0];
-
-      const productDiv = document.createElement('div');
-      productDiv.classList.add('product');
-
-      if (variant) {
-        if (variant.images && variant.images.length) {
-          const img = document.createElement('img');
-          img.src = variant.images[0].url;
-          img.alt = product.key;
-          productDiv.appendChild(img);
-        } else {
-          console.error(`Error: No images found for product ${product.key}`);
-        }
-
-        const name = document.createElement('h3');
-        name.textContent = product.key;
-        productDiv.appendChild(name);
-
-        if (variant.prices && variant.prices.length) {
-          const price = document.createElement('p');
-          const defaultPrice = variant.prices.find(price => price.value.currencyCode === 'USD') || variant.prices[0];
-          if (defaultPrice && defaultPrice.value) {
-            price.textContent = defaultPrice.value.currencyCode + ' ' + (defaultPrice.value.centAmount / 100).toFixed(2);
-            productDiv.appendChild(price);
-          } else {
-            console.error(`Error: No default price found for product ${product.key}`);
-          }
-        } else {
-          console.error(`Error: No prices found for product ${product.key}`);
-        }
-      } else {
-        console.error(`Error: No variant found for product ${product.key}`);
-      }
-
-      contentDiv.appendChild(productDiv);
-    });
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-*/
+  
